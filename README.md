@@ -29,6 +29,7 @@ Finally, the buyer can confirm the cart as complete for later processing.
 3. Initialize the Symfony project with your PHP container name: 
     * docker exec -it shopping-api-php-1 bash
     * composer install
+    * rename .env.example to .env
 
 ## API Endpoints
 
