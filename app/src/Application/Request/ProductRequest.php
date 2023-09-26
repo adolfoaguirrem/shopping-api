@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Application\Request;
+
+use App\Application\Request\BaseRequest;
+use Symfony\Component\Validator\Constraints as Assert;
+
+class ProductRequest extends BaseRequest
+{
+
+    /**
+     * @Assert\NotNull
+     */
+    protected $name;
+
+    /**
+     * @Assert\NotNull
+     * @Assert\NotBlank
+     * @Assert\Type(type="numeric")
+     */
+    protected $price;
+}

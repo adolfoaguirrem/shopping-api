@@ -1,0 +1,12 @@
+App\Domain\Product\Product:
+    type: entity
+    table: products
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        name:
+            type: product_name
+        price:
+            type: product_price

@@ -1,0 +1,12 @@
+App\Domain\Cart\Cart:
+    type: entity
+    table: carts
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        buyer_id:
+            type: integer
+        status:
+            type: string

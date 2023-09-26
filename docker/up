@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+docker network create docker_symfony_net_api || true
+docker build docker/mysql -t mysql_symfony
+docker build docker/php -t php
+docker build docker/nginx -t nginx_symfony
+
+docker-compose up -d --build

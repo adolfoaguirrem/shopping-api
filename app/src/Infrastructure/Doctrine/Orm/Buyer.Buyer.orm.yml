@@ -1,0 +1,10 @@
+App\Domain\Buyer\Buyer:
+    type: entity
+    table: buyers
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        name:
+            type: buyer_name

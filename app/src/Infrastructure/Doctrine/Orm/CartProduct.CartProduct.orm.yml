@@ -1,0 +1,14 @@
+App\Domain\CartProduct\CartProduct:
+    type: entity
+    table: cart_products
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        cart_id:
+            type: integer
+        product_id:
+            type: integer
+        quantity:
+            type: integer
