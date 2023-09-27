@@ -25,7 +25,7 @@ Finally, the buyer can confirm the cart as complete for later processing.
 1. Clone the repository: `git clone https://github.com/adolfoaguirrem/shopping-api.git`
 2. cd shopping-api
 3. Initialize the Docker images: docker/up
-4. Initialize the Symfony project with your PHP container name: 
+4. Initialize the Symfony project with your PHP container name:
     * docker exec -it shopping-api-php-1 bash
     * composer install
 
@@ -154,7 +154,7 @@ Finally, the buyer can confirm the cart as complete for later processing.
 
 ### **Get all products in a cart**
 
-**Endpoint:** `/api/carts/{cart_id}/products`
+**Endpoint:** `/api/carts/{id}`
 
 **Method:** `GET`
 
@@ -162,16 +162,38 @@ Finally, the buyer can confirm the cart as complete for later processing.
 
 ```json
 {
-    "cart": [
-        {
-            "product": "Sun glasses",
-            "quantity": 3
+    "cart_detail": {
+        "cart": {
+            "id": 1,
+            "buyer_id": 1
         },
-        {
-            "product": "T-shirt",
-            "quantity": 1
-        }
-    ]
+        "products": [
+            {
+                "product_id": 1,
+                "product_name": "Sun glasses",
+                "quantity": 3
+            },
+            {
+                "product_id": 2,
+                "product_name": "T-shirt",
+                "quantity": 1
+            }
+        ]
+    }
+}
+```
+
+### **Confirm cart**
+
+**Endpoint:** `/api/carts/{id}/confirm`
+
+**Method:** `PUT`
+
+**Response:**
+
+```json
+{
+    "message": "Cart confirmed"
 }
 ```
 

@@ -46,7 +46,7 @@ class DoctrineProductRepository extends ServiceEntityRepository implements Produ
      */
     public function findAll(): array
     {
-        $products = $this->_em->getRepository(Product::class)->findAll();
+        $products = $this->findAll();
         return $products;
     }
 

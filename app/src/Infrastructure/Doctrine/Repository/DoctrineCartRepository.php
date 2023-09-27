@@ -26,12 +26,12 @@ class DoctrineCartRepository extends ServiceEntityRepository implements CartInte
         return $cart;
     }
 
-    public function findById(int $cart_id): ?Cart
+    public function findById(int $id): ?Cart
     {
-        return $this->find($cart_id);
+        return $this->find($id);
     }
 
-    public function getOpenByBuyerId(int $buyer_id): ?Cart
+    public function getOpenByBuyer(int $buyer_id): ?Cart
     {
         $cart = $this->findOneBy([
             'buyer_id' => $buyer_id,

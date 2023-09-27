@@ -4,11 +4,20 @@ App\Domain\CartProduct\CartProduct:
     id:
         id:
             type: integer
-            generator: { strategy: AUTO }
+            generator:
+                strategy: AUTO
     fields:
-        cart_id:
-            type: integer
-        product_id:
-            type: integer
         quantity:
             type: integer
+    manyToOne:
+        cart:
+            targetEntity: App\Domain\Cart\Cart
+            inversedBy: cartProducts
+            joinColumn:
+                name: cart_id
+                referencedColumnName: id
+        product:
+            targetEntity: App\Domain\Product\Product
+            joinColumn:
+                name: product_id
+                referencedColumnName: id

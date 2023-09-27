@@ -20,6 +20,12 @@ class Product
         return $this->id;
     }
 
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
+
     public function getName(): ProductName
     {
         return $this->name;

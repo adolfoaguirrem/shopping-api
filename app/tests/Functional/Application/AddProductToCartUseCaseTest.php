@@ -3,13 +3,17 @@
 namespace App\Tests\Functional\Application;
 
 use App\Domain\Cart\Cart;
+use App\Domain\Product\Product;
 use PHPUnit\Framework\TestCase;
 use App\Domain\CartProduct\CartProduct;
 use App\Domain\Cart\ValueObject\CartStatus;
+use App\Application\UseCases\GetProductUseCase;
+use App\Domain\Product\ValueObject\ProductName;
+use App\Domain\Product\ValueObject\ProductPrice;
 use App\Application\Interfaces\CartProductInterface;
 use App\Application\UseCases\AddProductToCartUseCase;
-use App\Application\UseCases\GetOpenCartByBuyerUseCase;
 use App\Application\UseCases\GetProductOnCartUseCase;
+use App\Application\UseCases\GetOpenCartByBuyerUseCase;
 
 class AddProductToCartUseCaseTest extends TestCase
 {
@@ -19,21 +23,29 @@ class AddProductToCartUseCaseTest extends TestCase
         $cartProductRepository = $this->createMock(CartProductInterface::class);
         $getOpenCartByBuyerUseCase = $this->createMock(GetOpenCartByBuyerUseCase::class);
         $getProductOnCartUseCase = $this->createMock(GetProductOnCartUseCase::class);
+        $getProductUseCase = $this->createMock(GetProductUseCase::class);
 
         // Create an instance of AddProductToCartUseCase
         $addProductToCartUseCase = new AddProductToCartUseCase(
             $cartProductRepository,
             $getOpenCartByBuyerUseCase,
-            $getProductOnCartUseCase
+            $getProductOnCartUseCase,
+            $getProductUseCase
         );
 
         // Define test data
         $buyerId = 1;
         $productId = 123;
 
-        // Mock the expected behavior of your dependencies
         $cart = new Cart($buyerId, new CartStatus(CartStatus::OPEN));
         $cart->setId(1);
+
+        $product = new Product(
+            new ProductName('Test Product'),
+            new ProductPrice(100.0)
+        );
+
+        $product->setId(123);
 
         $getOpenCartByBuyerUseCase
             ->expects($this->once())
@@ -41,12 +53,18 @@ class AddProductToCartUseCaseTest extends TestCase
             ->with($buyerId)
             ->willReturn($cart);
 
+        $getProductUseCase
+            ->expects($this->once())
+            ->method('execute')
+            ->with($productId)
+            ->willReturn($product);
+
         $cartProduct = null; // Set to null to simulate that the product doesn't exist initially
 
         $getProductOnCartUseCase
             ->expects($this->once())
             ->method('execute')
-            ->with($cart->getId(), $productId)
+            ->with($cart, $product)
             ->willReturn($cartProduct);
 
         // Expectations for the cart product repository

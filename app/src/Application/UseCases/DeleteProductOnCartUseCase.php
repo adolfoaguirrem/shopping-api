@@ -2,9 +2,10 @@
 
 namespace App\Application\UseCases;
 
-use App\Application\UseCases\GetOpenCartByBuyerUseCase;
+use App\Application\UseCases\GetProductUseCase;
 use App\Application\Interfaces\CartProductInterface;
 use App\Application\UseCases\GetProductOnCartUseCase;
+use App\Application\UseCases\GetOpenCartByBuyerUseCase;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 
@@ -14,7 +15,8 @@ class DeleteProductOnCartUseCase
     public function __construct(
         private CartProductInterface $cartProductRepository,
         private GetOpenCartByBuyerUseCase $getOpenCartByBuyerUseCase,
-        private GetProductOnCartUseCase $getProductOnCartUseCase
+        private GetProductOnCartUseCase $getProductOnCartUseCase,
+        private GetProductUseCase $getProductUseCase
     ) {
     }
 
@@ -24,7 +26,8 @@ class DeleteProductOnCartUseCase
         $productId = $data['product_id'];
 
         $cart = $this->getOpenCartByBuyerUseCase->execute($buyerId);
-        $cartProduct = $this->getProductOnCartUseCase->execute($cart->getId(), $productId);
+        $product = $this->getProductUseCase->execute($productId);
+        $cartProduct = $this->getProductOnCartUseCase->execute($cart, $product);
 
         if (is_null($cartProduct)) {
             return throw new NotFoundHttpException('Product not found in Cart');

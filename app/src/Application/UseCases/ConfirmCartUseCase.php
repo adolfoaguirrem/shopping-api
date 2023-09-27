@@ -14,9 +14,9 @@ class ConfirmCartUseCase
     {
     }
 
-    public function execute(int $cart_id): ?Cart
+    public function execute(int $id): ?Cart
     {
-        $cart = $this->cartRepository->findById($cart_id);
+        $cart = $this->cartRepository->findById($id);
 
         if (is_null($cart)) {
             return throw new NotFoundHttpException('Cart not found');

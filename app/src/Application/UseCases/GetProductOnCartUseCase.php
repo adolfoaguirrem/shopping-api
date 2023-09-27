@@ -3,22 +3,20 @@
 namespace App\Application\UseCases;
 
 use App\Domain\CartProduct\CartProduct;
-use App\Application\UseCases\GetProductUseCase;
 use App\Application\Interfaces\CartProductInterface;
+use App\Domain\Cart\Cart;
+use App\Domain\Product\Product;
 
 class GetProductOnCartUseCase
 {
 
-    public function __construct(
-        private CartProductInterface $cartProductInterface,
-        private GetProductUseCase $getProductUseCase
-    ) {
+    public function __construct(private CartProductInterface $cartProductInterface)
+    {
     }
 
-    public function execute(int $cart_id, int $product_id): ?CartProduct
+    public function execute(Cart $cart, Product $product): ?CartProduct
     {
-        $product = $this->getProductUseCase->execute($product_id);
-        $cartProduct = $this->cartProductInterface->getProductOnCart($cart_id, $product->getId());
+        $cartProduct = $this->cartProductInterface->findByCartAndProduct($cart, $product);
         return $cartProduct;
     }
 }

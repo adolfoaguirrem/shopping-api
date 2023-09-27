@@ -35,7 +35,7 @@ class DoctrineBuyerRepository extends ServiceEntityRepository implements BuyerIn
      */
     public function findAll(): array
     {
-        $buyers = $this->_em->getRepository(Buyer::class)->findAll();
+        $buyers = $this->findAll();
         return $buyers;
     }
 }

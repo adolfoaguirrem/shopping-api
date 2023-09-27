@@ -3,8 +3,9 @@
 namespace App\Application\UseCases;
 
 use App\Domain\CartProduct\CartProduct;
-use App\Application\UseCases\GetProductOnCartUseCase;
+use App\Application\UseCases\GetProductUseCase;
 use App\Application\Interfaces\CartProductInterface;
+use App\Application\UseCases\GetProductOnCartUseCase;
 use App\Application\UseCases\GetOpenCartByBuyerUseCase;
 
 class AddProductToCartUseCase
@@ -13,7 +14,8 @@ class AddProductToCartUseCase
     public function __construct(
         private CartProductInterface $cartProductRepository,
         private GetOpenCartByBuyerUseCase $getOpenCartByBuyerUseCase,
-        private GetProductOnCartUseCase $getProductOnCartUseCase
+        private GetProductOnCartUseCase $getProductOnCartUseCase,
+        private GetProductUseCase $getProductUseCase
     ) {
         // ...
     }
@@ -24,10 +26,11 @@ class AddProductToCartUseCase
         $productId = $data['product_id'];
 
         $cart = $this->getOpenCartByBuyerUseCase->execute($buyerId);
-        $cartProduct = $this->getProductOnCartUseCase->execute($cart->getId(), $productId);
+        $product = $this->getProductUseCase->execute($productId);
+        $cartProduct = $this->getProductOnCartUseCase->execute($cart, $product);
 
         if (is_null($cartProduct)) {
-            $cartProduct = new CartProduct($cart->getId(), $productId);
+            $cartProduct = new CartProduct($cart, $product);
         }
 
         $cartProduct->increaseQuantity();

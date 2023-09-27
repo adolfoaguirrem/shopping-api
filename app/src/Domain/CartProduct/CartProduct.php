@@ -2,15 +2,20 @@
 
 namespace App\Domain\CartProduct;
 
+use App\Domain\Cart\Cart;
+use App\Domain\Product\Product;
+
 class CartProduct
 {
     private ?int $id = null;
     private int $quantity = 0;
+    private Cart $cart;
+    private Product $product;
 
-    public function __construct(private int $cart_id, private int $product_id)
+    public function __construct(Cart $cart, Product $product)
     {
-        $this->cart_id = $cart_id;
-        $this->product_id = $product_id;
+        $this->cart = $cart;
+        $this->product = $product;
     }
 
     public function getId(): int
@@ -18,14 +23,24 @@ class CartProduct
         return $this->id;
     }
 
-    public function getCartId(): int
+    public function getCart(): Cart
     {
-        return $this->cart_id;
+        return $this->cart;
     }
 
-    public function getProductId(): int
+    public function setCart(Cart $cart): Cart
     {
-        return $this->product_id;
+        return $this->cart = $cart;
+    }
+
+    public function getProduct(): Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(Product $product): Product
+    {
+        return $this->product = $product;
     }
 
     public function getQuantity(): int

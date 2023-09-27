@@ -9,6 +9,8 @@ class Cart
     private ?int $id = null;
     private $buyer_id;
     private $status;
+    private $cartProducts = [];
+
 
     public function __construct(int $buyer_id, CartStatus $status)
     {
@@ -42,4 +44,10 @@ class Cart
         $this->status = $status;
         return $this;
     }
+
+    public function getCartProducts()
+    {
+        return $this->cartProducts;
+    }
+
 }

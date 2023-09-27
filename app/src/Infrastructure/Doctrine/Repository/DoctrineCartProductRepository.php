@@ -2,6 +2,8 @@
 
 namespace App\Infrastructure\Doctrine\Repository;
 
+use App\Domain\Cart\Cart;
+use App\Domain\Product\Product;
 use App\Domain\CartProduct\CartProduct;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Application\Interfaces\CartProductInterface;
@@ -25,18 +27,18 @@ class DoctrineCartProductRepository extends ServiceEntityRepository implements C
         return $cartProduct;
     }
 
-    public function getProductsOnCart(int $cart_id): array
+    public function findByCart(int $cart_id): array
     {
         return $this->findBy([
             'cart_id' => $cart_id
         ]);
     }
 
-    public function getProductOnCart(int $cart_id, int $product_id): ?CartProduct
+    public function findByCartAndProduct(Cart $cart, Product $product): ?CartProduct
     {
         $cartProduct = $this->findOneBy([
-            'cart_id' => $cart_id,
-            'product_id' => $product_id
+            'cart' => $cart,
+            'product' => $product,
         ]);
 
         return $cartProduct;

@@ -19,7 +19,7 @@ class GetOpenCartByBuyerUseCase
     public function execute(int $buyerId): ?Cart
     {
         $buyer = $this->getBuyerUseCase->execute($buyerId);
-        $cart = $this->cartRepository->getOpenByBuyerId($buyer->getId());
+        $cart = $this->cartRepository->getOpenByBuyer($buyer->getId());
 
         if (is_null($cart)) {
 

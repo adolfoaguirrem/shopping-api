@@ -2,30 +2,47 @@
 
 namespace App\Tests\Unit\Domain;
 
+use App\Domain\Cart\Cart;
+use App\Domain\Cart\ValueObject\CartStatus;
+use App\Domain\Product\Product;
 use PHPUnit\Framework\TestCase;
 use App\Domain\CartProduct\CartProduct;
+use App\Domain\Product\ValueObject\ProductName;
+use App\Domain\Product\ValueObject\ProductPrice;
 
 class CartProductTest extends TestCase
 {
-    public function test_modify_quantity()
+    public function test_get_cart()
     {
-        $cart_id = 1;
-        $produc_id = 1;
+        $cart = new Cart(1, new CartStatus(CartStatus::OPEN));
+        $product = new Product(new ProductName('Mobile'), new ProductPrice(10.0));
+        $cartProduct = new CartProduct($cart, $product);
 
-        $cartProduct = new CartProduct($cart_id, $produc_id);
+        $this->assertSame($cart, $cartProduct->getCart());
+    }
+
+    public function test_increase_quantity()
+    {
+        $cart = new Cart(1, new CartStatus(CartStatus::OPEN));
+        $product = new Product(new ProductName('Mobile'), new ProductPrice(10.0));
+        $cartProduct = new CartProduct($cart, $product);
+
+        $initialQuantity = $cartProduct->getQuantity();
         $cartProduct->increaseQuantity();
 
-        // test getters
-        $this->assertEquals(1, $cartProduct->getCartId());
-        $this->assertEquals(1, $cartProduct->getProductId());
-        $this->assertEquals(1, $cartProduct->getQuantity());
+        $this->assertSame($initialQuantity + 1, $cartProduct->getQuantity());
+    }
 
-        // Testing methods of increasing and decreasing quantities.
-        $cartProduct->increaseQuantity();
-        $this->assertEquals(2, $cartProduct->getQuantity());
+    public function test_decrease_quantity()
+    {
+        $cart = new Cart(1, new CartStatus(CartStatus::OPEN));
+        $product = new Product(new ProductName('Mobile'), new ProductPrice(10.0));
+        $cartProduct = new CartProduct($cart, $product);
 
+        $initialQuantity = $cartProduct->getQuantity();
         $cartProduct->decreaseQuantity();
-        $this->assertEquals(1, $cartProduct->getQuantity());
+
+        $this->assertSame($initialQuantity - 1, $cartProduct->getQuantity());
     }
 
 }
