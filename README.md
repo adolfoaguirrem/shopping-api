@@ -197,13 +197,12 @@ Finally, the buyer can confirm the cart as complete for later processing.
 }
 ```
 
-## API Endpoints
 ### **Running Tests**
 
 ```sh
-{
-    php bin/phpunit --testdox
-}
+
+php bin/phpunit --testdox
+
 ```
 ### **Tests**
 
